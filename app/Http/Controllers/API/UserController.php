@@ -50,6 +50,7 @@ class UserController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', new Password],
+                'category_id' => ['nullable', 'exists:categories,id']
             ]);
 
             // Create user
@@ -57,6 +58,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'category_id' => $request->category_id ?? null
             ]);
 
             // Generate token
