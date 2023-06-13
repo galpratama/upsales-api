@@ -38,7 +38,7 @@ class UserController extends Controller
                 'user' => $user
             ], 'Login success');
         } catch (Exception $e) {
-            return ResponseFormatter::error($e->getMessage());
+            return ResponseFormatter::error('User login error', $e->getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
             ], 'Register success');
         } catch (Exception $error) {
             // Return error response
-            return ResponseFormatter::error($error->getMessage());
+            return ResponseFormatter::error('User register error', $error->getMessage());
         }
     }
 

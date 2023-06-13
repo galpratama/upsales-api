@@ -46,4 +46,12 @@ class Product extends Model
     {
         return $this->hasMany(ProductPhoto::class);
     }
+
+    /**
+     * Get the transactions for the product.
+     */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

@@ -26,7 +26,7 @@ class ProductPhotoController extends Controller
         $productPhoto = ProductPhoto::find($id);
 
         if (!$productPhoto) {
-            return ResponseFormatter::error('Product photo not found', 404);
+            return ResponseFormatter::error('Product photo not found', null, 404);
         }
 
         // Delete from storage

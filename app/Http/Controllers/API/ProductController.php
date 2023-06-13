@@ -30,7 +30,7 @@ class ProductController extends Controller
                 return ResponseFormatter::success($product, 'Product found');
             }
 
-            return ResponseFormatter::error('Product not found', 404);
+            return ResponseFormatter::error('Product not found', null, 404);
         }
 
         // Get multiple data
@@ -68,7 +68,7 @@ class ProductController extends Controller
 
             return ResponseFormatter::success($product, 'Product created');
         } catch (Exception $e) {
-            return ResponseFormatter::error($e->getMessage(), 500);
+            return ResponseFormatter::error('Product create error', $e->getMessage(), 500);
         }
     }
 
@@ -95,7 +95,7 @@ class ProductController extends Controller
 
             return ResponseFormatter::success($product, 'Product updated');
         } catch (Exception $e) {
-            return ResponseFormatter::error($e->getMessage(), 500);
+            return ResponseFormatter::error('Product update error', $e->getMessage(), 500);
         }
     }
 }

@@ -25,7 +25,7 @@ class CategoryController extends Controller
                 return ResponseFormatter::success($category, 'Category found');
             }
 
-            return ResponseFormatter::error('Category not found', 404);
+            return ResponseFormatter::error('Category not found', null, 404);
         }
 
         // Get multiple data

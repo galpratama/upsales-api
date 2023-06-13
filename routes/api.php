@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\MidtransController;
+use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\ProductPhotoController;
 
 /*
@@ -41,8 +43,17 @@ Route::prefix('product')->middleware('auth:sanctum')->name('product.')->group(fu
     Route::delete('{id}', [ProductController::class, 'destroy'])->name('delete');
 
     // Product Photo API
-    Route::prefix('photo')->name('.photo.')->group(function () {
+    Route::prefix('photo')->name('photo.')->group(function () {
         Route::post('', [ProductPhotoController::class, 'create'])->name('create');
         Route::delete('{id}', [ProductPhotoController::class, 'destroy'])->name('delete');
     });
 });
+
+// Transaction API
+Route::prefix('transaction')->middleware('auth:sanctum')->name('transaction.')->group(function () {
+    Route::get('', [TransactionController::class, 'fetch'])->name('fetch');
+    Route::post('', [TransactionController::class, 'create'])->name('create');
+});
+
+// Midtrans callback
+Route::post('midtrans/notification', [MidtransController::class, 'notification'])->name('midtrans.notification');
