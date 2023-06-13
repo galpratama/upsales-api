@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'category_id',
     ];
 
     /**
@@ -58,4 +59,20 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the category that owns the user.
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the products for the user.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
