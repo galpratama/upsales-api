@@ -19,6 +19,12 @@ use App\Http\Controllers\API\ProductPhotoController;
 |
 */
 
+
+// Category API
+Route::prefix('category')->name('category.')->group(function () {
+    Route::get('', [CategoryController::class, 'fetch'])->name('fetch');
+});
+
 // Auth API
 Route::name('auth.')->group(function () {
     Route::post('login', [UserController::class, 'login'])->name('login');
@@ -28,11 +34,6 @@ Route::name('auth.')->group(function () {
         Route::post('logout', [UserController::class, 'logout'])->name('logout');
         Route::get('user', [UserController::class, 'fetch'])->name('fetch');
     });
-});
-
-// Category API
-Route::prefix('category')->middleware('auth:sanctum')->name('category.')->group(function () {
-    Route::get('', [CategoryController::class, 'fetch'])->name('fetch');
 });
 
 // Product API
