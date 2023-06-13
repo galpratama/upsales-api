@@ -98,4 +98,24 @@ class ProductController extends Controller
             return ResponseFormatter::error('Product update error', $e->getMessage(), 500);
         }
     }
+
+    public function destroy($id): object
+    {
+        try {
+            // Get product
+            $product = Product::find($id);
+
+            // Check if product exists
+            if (!$product) {
+                throw new ProductNotFoundException('Product not found');
+            }
+
+            // Delete product
+            $product->delete();
+
+            return ResponseFormatter::success(null, 'Product deleted');
+        } catch (Exception $e) {
+            return ResponseFormatter::error('Product delete error', $e->getMessage(), 500);
+        }
+    }
 }

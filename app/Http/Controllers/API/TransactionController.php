@@ -2,15 +2,53 @@
 
 namespace App\Http\Controllers\API;
 
+use Exception;
 use App\Models\Product;
 use App\Models\Transaction;
+use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\API\TransactionRequest;
+use App\Exceptions\TransactionNotFoundException;
 
 class TransactionController extends Controller
 {
+
+    //Fetch
+    public function fetch(Request $request): object
+    {
+        $id = $request->input('id');
+        $name = $request->input('name');
+        $limit = $request->input('limit', 10);
+
+        $query = Transaction::with('user', 'product')->where('user_id', Auth::id());
+
+        // Get single data
+        if ($id) {
+            $transaction = $query->find($id);
+
+            if ($transaction) {
+                return ResponseFormatter::success($transaction, 'Transaction found');
+            }
+
+            return ResponseFormatter::error('Transaction not found', null, 404);
+        }
+
+        // Get multiple data
+        $transactions = $query;
+
+        if ($name) {
+            $transactions->where('name', 'like', '%' . $name . '%');
+        }
+
+        return ResponseFormatter::success(
+            $transactions->paginate($limit),
+            'Transactions found'
+        );
+    }
+
     // Create
     public function create(TransactionRequest $request)
     {
@@ -85,5 +123,26 @@ class TransactionController extends Controller
         }
 
         return ResponseFormatter::success($transaction, 'Transaction created');
+    }
+
+    // Destroy
+    public function destroy($id): object
+    {
+        try {
+            // Get transaction
+            $transaction = Transaction::find($id);
+
+            // Check if transaction exists
+            if (!$transaction) {
+                throw new TransactionNotFoundException('Transaction not found');
+            }
+
+            // Delete transaction
+            $transaction->delete();
+
+            return ResponseFormatter::success(null, 'Transaction deleted');
+        } catch (Exception $e) {
+            return ResponseFormatter::error('Transaction delete error', $e->getMessage(), 500);
+        }
     }
 }

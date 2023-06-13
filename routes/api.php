@@ -53,6 +53,7 @@ Route::prefix('product')->middleware('auth:sanctum')->name('product.')->group(fu
 Route::prefix('transaction')->middleware('auth:sanctum')->name('transaction.')->group(function () {
     Route::get('', [TransactionController::class, 'fetch'])->name('fetch');
     Route::post('', [TransactionController::class, 'create'])->name('create');
+    Route::delete('{id}', [TransactionController::class, 'destroy'])->name('delete');
 });
 
 // Midtrans callback
