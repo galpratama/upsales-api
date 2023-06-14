@@ -20,7 +20,7 @@ class ProductController extends Controller
         $name = $request->input('name');
         $limit = $request->input('limit', 10);
 
-        $query = Product::with('user', 'photos')->where('user_id', Auth::id());
+        $query = Product::with('user', 'photos', 'category')->where('user_id', Auth::id());
 
         // Get single data
         if ($id) {
