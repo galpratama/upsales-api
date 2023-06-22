@@ -57,7 +57,7 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'category_id' => $request->category_id,
                 'user_id' => Auth::id(),
-                'status' => $request->status
+                'status' => $request->status ?? 'active'
             ]);
 
             if (!$product) {
@@ -92,7 +92,7 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'category_id' => $request->category_id,
                 'user_id' => Auth::id(),
-                'status' => $request->status
+                'status' => $request->status ?? $product->status
             ]);
 
             return ResponseFormatter::success($product, 'Product updated');
