@@ -23,7 +23,7 @@ class TransactionController extends Controller
         $name = $request->input('name');
         $limit = $request->input('limit', 10);
 
-        $query = Transaction::with('user', 'product')->where('user_id', Auth::id());
+        $query = Transaction::with('user', 'product.category')->where('user_id', Auth::id());
 
         // Get single data
         if ($id) {
